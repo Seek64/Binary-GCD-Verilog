@@ -23,7 +23,7 @@ After the computation finishes, the *done_o* signal is asserted for one clock cy
 
 ## Performance
 
-The module's latency depends on the operand values and ranges from a minimum **2** clock cycles (when one operand is zero) to a maximum of **2+2*WIDTH** clock cycles.
+The module's latency depends on the operand values and ranges from a minimum **2** clock cycles (when one operand is zero) to a maximum of **1+2*WIDTH** clock cycles.
 
 ## Verification
 

@@ -43,8 +43,8 @@ module gcd_binary #(
   always_comb begin
     case (state_q)
       IDLE:         next_state = start_i ? INIT : IDLE;
-      INIT:         next_state = (a_q == '0 || b_q == '0) ? DONE : TRIM_ZEROS;
-      TRIM_ZEROS:   next_state = (a_q[0] == 1'b0 && b_q[0] == 1'b0) ? TRIM_ZEROS : COMPUTE;
+      INIT:         next_state = (a_q == '0 || b_q == '0) ? DONE : ((a_q[0] | b_q[0]) ? COMPUTE : TRIM_ZEROS);
+      TRIM_ZEROS:   next_state = (a_q[1] | b_q[1]) ? COMPUTE : TRIM_ZEROS;
       COMPUTE:      next_state = (a_q == b_q) ? DONE : COMPUTE;
       DONE:         next_state = IDLE;
       default:      next_state = IDLE;
@@ -94,6 +94,9 @@ module gcd_binary #(
       end
       DONE: begin
         // Output res_o = a_q << shift_q
+      end
+      default: begin
+        // Should not occur
       end
       endcase
     end
