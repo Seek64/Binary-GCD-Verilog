@@ -67,14 +67,14 @@ module property_checker
 
 
   // Verifying the worst-case latency
-  property wcet_p;
-    ##0 (gcd_binary.ready_o == 1'b1)
-    ##0 (gcd_binary.start_i == 1'b1)
-    ##1 (gcd_binary.ready_o == 1'b0) [*(2*WIDTH+1)]
+  property wcl_p(n);
+    ##0 gcd_binary.ready_o == 1'b1
+    ##0 gcd_binary.start_i == 1'b1
+    ##1 gcd_binary.done_o == 1'b0 [*(n-1)]
   |->
-    ##0 (gcd_binary.done_o == 1'b1);
+    ##1 gcd_binary.done_o == 1'b1;
   endproperty
-  wcet_p_a: assert property (disable iff (rst_i) wcet_p);
+  wcl_p_a:    assert property (disable iff (rst_i) wcl_p(2*WIDTH+1));
 
 
 endmodule
